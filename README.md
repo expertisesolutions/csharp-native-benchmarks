@@ -48,7 +48,9 @@ microseconds.
 
 ## System
 
-* i7-7440 @3.4GHz / 32GB RAM / 256GB SSD
+* Dell XPS 15 9560
+* i7-7700HQ @ 2.8 GHz
+* 32 GB RAM
 * Ubuntu 19.10
 * Mono JIT/`mcs` 6.4.0.198 from Mono's repo.
 * `dotnet` 3.0.100 from Microsoft's repo, targeting `netcoreapp` both 2.2 and 3.0
