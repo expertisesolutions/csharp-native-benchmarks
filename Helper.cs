@@ -12,9 +12,7 @@ namespace helpers
             stopwatch.Start();
             for (int i = 0; i < n; i++)
             {
-                
                 action();
-            
             }
             stopwatch.Stop();
 
@@ -23,14 +21,14 @@ namespace helpers
 
         public static void WriteHeader()
         {
-            Console.WriteLine("domain,name,size,span,ns,us");
+            Console.WriteLine("domain,name,iteration,size,span,ns,us");
         }
 
-        public static void Inspect(string domain, string title, TimeSpan span, int n)
+        public static void Inspect(string domain, int iteration, string title, TimeSpan span, int n)
         {
             var ms = span.TotalMilliseconds + span.Ticks / 10000;
             var ms_per_run = ms / n ;
-            Console.WriteLine($"{domain},{title},{n},{span},{1000000 * ms_per_run},{1000 * ms_per_run}");
+            Console.WriteLine($"{domain},{title},{iteration},{n},{span},{1000000 * ms_per_run},{1000 * ms_per_run}");
         }
 
 

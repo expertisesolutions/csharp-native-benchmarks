@@ -11,7 +11,6 @@ import matplotlib.pyplot as plt
 def main():
 
     filenames = sys.argv[1:]
-    
 
     df = pd.concat(pd.read_csv(filename) for filename in filenames)
 

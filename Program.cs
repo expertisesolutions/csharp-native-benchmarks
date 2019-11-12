@@ -14,26 +14,35 @@ namespace csharp_native_benchmarks
             }
 
             var domain = args[0];
-            TimeSpan time;
-
             helpers.Helper.WriteHeader();
+
+            for (int i = 0; i < 20; i++)
+            {
+                Iterate(domain, i);
+            }
+
+        }
+
+        static void Iterate(string domain, int iteration)
+        {
+            TimeSpan time;
 
 
             var file = helpers.Helper.Open("/dev/null", "w");
             for (int n = 10; n < 10000000; n *= 2)
             {
                 time = helpers.Helper.Measure(() => benchmarks.DirectCsharpCall.StaticMethod("abc"), n);
-                helpers.Helper.Inspect(domain, "ManagedStatic", time, n);
+                helpers.Helper.Inspect(domain, iteration, "ManagedStatic", time, n);
 
                 var obj = new benchmarks.DirectCsharpCall();
                 time = helpers.Helper.Measure(() => obj.VirtualMethod("abc"), n);
-                helpers.Helper.Inspect(domain, "ManagedVirtual", time, n);
+                helpers.Helper.Inspect(domain, iteration, "ManagedVirtual", time, n);
 
                 time = helpers.Helper.Measure(() => benchmarks.DirectDllImportCall.fprintf(file, "abc\n"), n);
-                helpers.Helper.Inspect(domain, "DllImportDirect", time, n);
+                helpers.Helper.Inspect(domain, iteration, "DllImportDirect", time, n);
 
                 time = helpers.Helper.Measure(() => benchmarks.CustomMarshalDllImportCall.fprintf(file, "abc\n"), n);
-                helpers.Helper.Inspect(domain, "DllImportCustomMarshaller", time, n);
+                helpers.Helper.Inspect(domain, iteration, "DllImportCustomMarshaller", time, n);
             }
 
 
@@ -47,7 +56,7 @@ namespace csharp_native_benchmarks
                 called = 0;
                 IntPtr data = benchmarks.MethodCalledFromC.PrepareData(n);
                 time = helpers.Helper.Measure(() => benchmarks.MethodCalledFromC.qsort(data, n, (uint)Marshal.SizeOf<int>(), func), 1);
-                helpers.Helper.Inspect(domain, "DllImportWithCallback", time, called);
+                helpers.Helper.Inspect(domain, iteration, "DllImportWithCallback", time, called);
                 Marshal.FreeHGlobal(data);
             }
         }
